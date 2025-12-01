@@ -1,4 +1,4 @@
-mport { FleetItem } from "../types";
+import { FleetItem } from "../types";
 
 // دالة وهمية لتحليل الأعطال بدون استخدام أي API خارجي
 export const analyzeMaintenanceIssue = async (
