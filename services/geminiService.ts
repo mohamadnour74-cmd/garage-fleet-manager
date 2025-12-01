@@ -1,8 +1,22 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { FleetItem } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
+const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
+
+export const analyzeMaintenanceIssue = async (
+  vehicle: FleetItem,
+  issueDescription: string
+): Promise<{ diagnosis: string; steps: string[] } | null> => {
+  if (!ai) {
+    console.warn("Gemini API key is not set. Skipping AI analysis.");
+    return null;
+  }
+
+  const prompt = `
+    Act as a senior mechanic advisor.
+    ...
 export const analyzeMaintenanceIssue = async (
   vehicle: FleetItem,
   issueDescription: string
