@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { FleetItem, MaintenanceRecord, Settings } from '../types';
 import { INITIAL_FLEET, INITIAL_RECORDS, MOCK_SETTINGS } from '../constants';
-
+import { db, auth } from "../services/firebaseConfig";
 interface FleetContextType {
   fleet: FleetItem[];
   records: MaintenanceRecord[];
