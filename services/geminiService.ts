@@ -1,61 +1,19 @@
-import { GoogleGenAI, Type } from "@google/genai";
-import { FleetItem } from "../types";
+mport { FleetItem } from "../types";
 
-const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-
-const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
-
+// دالة وهمية لتحليل الأعطال بدون استخدام أي API خارجي
 export const analyzeMaintenanceIssue = async (
   vehicle: FleetItem,
   issueDescription: string
-): Promise<{ diagnosis: string; steps: string[] } | null> => {
-  if (!ai) {
-    console.warn("Gemini API key is not set. Skipping AI analysis.");
-    return null;
-  }
-
-  const prompt = `
-    Act as a senior mechanic advisor.
-    ...
-export const analyzeMaintenanceIssue = async (
-  vehicle: FleetItem,
-  issueDescription: string
-): Promise<{ diagnosis: string; steps: string[] } | null> => {
-  const prompt = `
-    Act as a senior mechanic advisor.
-    Vehicle: ${vehicle.year} ${vehicle.make} ${vehicle.model} (${vehicle.type})
-    Mileage/Hours: ${vehicle.currentMeter}
-    Issue Description: ${issueDescription}
-
-    Provide a likely diagnosis and a list of 3-5 recommended inspection steps.
-    Keep it concise and professional.
-  `;
-
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            diagnosis: { type: Type.STRING },
-            steps: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING }
-            }
-          }
-        }
-      }
-    });
-
-    if (response.text) {
-      return JSON.parse(response.text);
-    }
-    return null;
-  } catch (error) {
-    console.error("Gemini analysis failed", error);
-    return null;
-  }
+): Promise<{ diagnosis: string; steps: string[] }> => {
+  // جواب بسيط ثابت، بس لحتى التطبيق يشتغل بدون ما يطيح
+  return {
+    diagnosis:
+      "AI analysis is not configured yet. Please rely on your mechanical experience for now.",
+    steps: [
+      "Check the basic items first (fluids, filters, visible leaks).",
+      "Read any available fault codes from the vehicle/equipment.",
+      "Inspect the area related to the described issue.",
+      "Plan the repair and record it in the maintenance log.",
+    ],
+  };
 };
